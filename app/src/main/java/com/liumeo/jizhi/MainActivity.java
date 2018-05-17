@@ -40,6 +40,8 @@ public class MainActivity extends Activity
 	}
 	public void submit(View view)
 	{
-		startActivity(new Intent(this,BottomNavigationActivity.class));
+		Intent intent=new Intent(this,BottomNavigationActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(intent);
 	}
 }
