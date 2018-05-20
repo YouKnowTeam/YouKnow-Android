@@ -20,8 +20,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".BottomNavigationActivity"
-            android:label="@string/title_activity_main2">
+            android:name=".BottomNavigationActivity">
         </activity>
     </application>
 

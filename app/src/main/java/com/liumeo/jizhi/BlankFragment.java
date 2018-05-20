@@ -7,6 +7,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 
 /**
@@ -19,7 +22,7 @@ public class BlankFragment extends Fragment
 {
 
 	private OnFragmentInteractionListener mListener;
-
+	private ListView meListView;
 	public BlankFragment()
 	{
 		// Required empty public constructor
@@ -33,7 +36,13 @@ public class BlankFragment extends Fragment
 		// Inflate the layout for this fragment
 		return inflater.inflate(R.layout.fragment_blank, container, false);
 	}
-
+	public void onStart()
+	{
+		super.onStart();
+		meListView=getView().findViewById(R.id.meListView);
+		ArrayAdapter<String> adapter=new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,new String[]{"1","3"});
+		meListView.setAdapter(adapter);
+	}
 	// TODO: Rename method, update argument and hook method into UI event
 	public void onButtonPressed(Uri uri)
 	{
