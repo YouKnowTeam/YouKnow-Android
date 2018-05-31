@@ -28,6 +28,7 @@ public class MainActivity extends Activity
 	View registerButton;
 	private static final String userinfoId="userinfoId";
 	private static final String userinfoPassword="userinfoPassword";
+	private static final String tokenKey="token";
 	private boolean register;//是否为注册模式
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -40,6 +41,8 @@ public class MainActivity extends Activity
 		registerButton=findViewById(R.id.registerButton);
 		idEditText=findViewById(R.id.idEditText);
 		passwordEditText=findViewById(R.id.passwordEditText);
+		idEditText.setSaveEnabled(false);
+		passwordEditText.setSaveEnabled(false);
 		//默认登录模式
 		login(null);
 	}
@@ -52,7 +55,7 @@ public class MainActivity extends Activity
 		registerButton.setBackgroundColor(getResources().getColor(R.color.colorYellow));
 		if(getUserInfo())//上次成功登录过
 		{
-			//submit(null);//自动登录
+			submit(null);//自动登录
 		}
 	}
 	public void register(View view)
@@ -70,7 +73,8 @@ public class MainActivity extends Activity
 		Map<String,String>map=new HashMap<>();
 		map.put("userid",id);
 		map.put("passwd",password);
-		if(register)//注册状态
+        final Activity thisActivity = this;
+        if(register)//注册状态
 		{
 			String confirmPassword=confirmEditText.getText().toString();
 			if(!password.equals(confirmPassword))
@@ -84,12 +88,35 @@ public class MainActivity extends Activity
 				@Override
 				public void run()
 				{
-					System.out.println("******************");
-					System.out.println(response);
-					System.out.println("******************");
-					//判断是否成功
-					storeUserInfo(id,password);
-					successLogin();
+                    System.out.println("******************");
+                    System.out.println(response);
+                    System.out.println("******************");
+                    Map result = JSON.parseObject(response, new TypeReference<Map>(){});
+                    System.out.println("******************");
+                    System.out.println(result);
+                    System.out.println("******************");
+                    Toast toast;
+                    int code = (Integer)result.get("code");
+                    switch (code) {
+                        case 0:
+                            storeUserInfo(id, password);
+                            idEditText.setText(id);
+                            passwordEditText.setText(password);
+                            login(null);
+                            break;
+                        case -2:
+                            toast=Toast.makeText(thisActivity,R.string.useridAlreadyExist,Toast.LENGTH_SHORT);
+                            toast.show();
+                            break;
+                        case -3:
+                            toast=Toast.makeText(thisActivity,R.string.serverError,Toast.LENGTH_SHORT);
+                            toast.show();
+                            break;
+                        default:
+                            toast=Toast.makeText(thisActivity,R.string.unknownError,Toast.LENGTH_SHORT);
+                            toast.show();
+                            break;
+                    }
 				}
 			});
 		}
@@ -106,16 +133,33 @@ public class MainActivity extends Activity
                     Map result = JSON.parseObject(response, new TypeReference<Map>(){});
                     System.out.println("******************");
                     System.out.println(result);
-                    System.out.println(result.get("code"));
-                    System.out.println(result.get("msg"));
-                    System.out.println(result.get("token"));
                     System.out.println("******************");
-					//判断是否成功
-                    if (result.get("code") == "0")
-					    storeUserInfo(id,password);
-                        successLogin();
-                    else
-
+                    Toast toast;
+                    int code = (Integer)result.get("code");
+                    switch (code) {
+                        case 0:
+                            storeUserInfo(id, password);
+                            Networking.token = (String)result.get("token");
+                            System.out.println(Networking.token);
+                            successLogin();
+                            break;
+                        case -1:
+                            toast=Toast.makeText(thisActivity,R.string.passwordWrong,Toast.LENGTH_SHORT);
+                            toast.show();
+                            break;
+                        case -2:
+                            toast=Toast.makeText(thisActivity,R.string.useridNotExist,Toast.LENGTH_SHORT);
+                            toast.show();
+                            break;
+                        case -3:
+                            toast=Toast.makeText(thisActivity,R.string.serverError,Toast.LENGTH_SHORT);
+                            toast.show();
+                            break;
+                        default:
+                            toast=Toast.makeText(thisActivity,R.string.unknownError,Toast.LENGTH_SHORT);
+                            toast.show();
+                            break;
+                    }
 				}
 			});
 		}

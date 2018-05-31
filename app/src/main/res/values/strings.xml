@@ -8,6 +8,11 @@
     <string name="submit">提交</string>
     <string name="notConsistent">两次密码不一致</string>
     <string name="networkError">网络异常</string>
+    <string name="passwordWrong">密码错误</string>
+    <string name="useridNotExist">用户不存在</string>
+    <string name="useridAlreadyExist">用户已存在</string>
+    <string name="serverError">服务器错误</string>
+    <string name="unknownError">未知错误</string>
     <string name="logout">退出登录</string>
     <string name="discovery">发现</string>
     <string name="me">我</string>
