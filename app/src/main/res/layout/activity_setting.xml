@@ -39,5 +39,6 @@
         android:layout_marginBottom="20dp"
         android:background="@color/colorRed"
         android:text="@string/logout"
+        android:onClick="logout"
         android:textColor="@color/colorWhite"/>
 </RelativeLayout>
