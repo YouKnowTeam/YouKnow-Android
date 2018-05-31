@@ -21,7 +21,13 @@ import java.util.Map;
 public class ItemFragment extends ListFragment
 {
 
+    /**
+     * 储存所有message的ArrayList
+     */
     ArrayList<Message> messages;
+    /**
+     * 适配messages的adapter
+     */
     ListViewAdapter adapter;
 
     @Override
@@ -37,14 +43,27 @@ public class ItemFragment extends ListFragment
                 ((TextView)holder.getView(R.id.time)).setText(o.time);
             }
         };
+
+	    getData(-1, 10);
+		setListAdapter(this.adapter);
+		return super.onCreateView(inflater, container, savedInstanceState);
+	}
+
+    /**
+     * 从服务器请求数据
+     * 自动更新至页面
+     * @param fromMsgID 之前拿到的最后一条message的msgID
+     * @param num 需要取多少条message
+     */
+	private void getData(int fromMsgID, int num) {
         Map<String,String> params=new HashMap<>();
         params.put("token", Networking.token);
-        params.put("msg_id", "-1");
-        params.put("num", "10");
+        params.put("msg_id", String.valueOf(fromMsgID));
+        params.put("num", String.valueOf(num));
         final Activity thisActivity = this.getActivity();
         final ItemFragment thisFragment = this;
-		Networking.get("/GetAllSubscribedMessages", params, this.getActivity(), new Networking.Updater() {
-		    @Override
+        Networking.get("/GetAllSubscribedMessages", params, this.getActivity(), new Networking.Updater() {
+            @Override
             public void run() {
                 System.out.println("******************");
                 System.out.println(response);
@@ -82,12 +101,7 @@ public class ItemFragment extends ListFragment
                 }
             }
         });
-
-//		messages.add(new Message("四六级报名开始", "1", "1", "hahahahahahahahaha","2018-03-11"));
-//        messages.add(new Message("16级xxx有没有男/女朋友呀", "2", "2", "hahahahahahahahaha","2018-05-05"));
-		setListAdapter(this.adapter);
-		return super.onCreateView(inflater, container, savedInstanceState);
-	}
+    }
 
 	@Override
 	public void onStart()

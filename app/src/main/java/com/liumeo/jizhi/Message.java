@@ -21,7 +21,7 @@ class Message
      * 消息时间
      */
     public String time;
-    
+
 	Message(int msgID, String srcID, String brief, String time)
 	{
 		this.brief=brief;
