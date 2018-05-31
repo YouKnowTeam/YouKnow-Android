@@ -4,16 +4,16 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-public class MyFragmentPagerAdapter extends FragmentPagerAdapter
+public class SlideAdapter extends FragmentPagerAdapter
 {
 	private static int PAGER_COUNT=2;
-	private BlankFragment me;
-	private ItemFragment discovery;
-	public MyFragmentPagerAdapter(FragmentManager fm)
+	private MeFragment me;
+	private DiscoveryFragment discovery;
+	public SlideAdapter(FragmentManager fm)
 	{
 		super(fm);
-		discovery=new ItemFragment();
-		me=new BlankFragment();
+		discovery=new DiscoveryFragment();
+		me=new MeFragment();
 	}
 
 	@Override

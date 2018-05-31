@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -15,15 +14,15 @@ import android.widget.ListView;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link BlankFragment.OnFragmentInteractionListener} interface
+ * {@link MeFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
  */
-public class BlankFragment extends Fragment
+public class MeFragment extends Fragment
 {
 
 	private OnFragmentInteractionListener mListener;
 	private ListView meListView;
-	public BlankFragment()
+	public MeFragment()
 	{
 		// Required empty public constructor
 	}

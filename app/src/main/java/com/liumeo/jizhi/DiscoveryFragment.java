@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ItemFragment extends ListFragment
+public class DiscoveryFragment extends ListFragment
 {
 
     /**
@@ -34,7 +34,7 @@ public class ItemFragment extends ListFragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 	    this.messages = new ArrayList<>();
-	    this.adapter = new ListViewAdapter<Message> (getContext(), messages,R.layout.article_item)
+	    this.adapter = new ListViewAdapter<Message> (getContext(), messages,R.layout.messsage_item)
         {
             @Override
             public void convert(ViewHolder holder, Message o)
@@ -61,7 +61,7 @@ public class ItemFragment extends ListFragment
         params.put("msg_id", String.valueOf(fromMsgID));
         params.put("num", String.valueOf(num));
         final Activity thisActivity = this.getActivity();
-        final ItemFragment thisFragment = this;
+        final DiscoveryFragment thisFragment = this;
         Networking.get("/GetAllSubscribedMessages", params, this.getActivity(), new Networking.Updater() {
             @Override
             public void run() {
