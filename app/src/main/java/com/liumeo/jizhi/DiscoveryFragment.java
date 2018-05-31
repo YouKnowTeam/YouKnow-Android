@@ -1,11 +1,14 @@
 package com.liumeo.jizhi;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,7 +23,7 @@ import java.util.Map;
 
 public class DiscoveryFragment extends ListFragment
 {
-
+	static final String MSG_ID="MSG_ID";
     /**
      * 储存所有message的ArrayList
      */
@@ -39,11 +42,11 @@ public class DiscoveryFragment extends ListFragment
             @Override
             public void convert(ViewHolder holder, Message o)
             {
-                ((TextView)holder.getView(R.id.title)).setText(o.brief);
-                ((TextView)holder.getView(R.id.time)).setText(o.time);
+				((TextView)holder.getView(R.id.sourceTextView)).setText(o.srcID);
+                ((TextView)holder.getView(R.id.titleTextView)).setText(o.brief);
+                ((TextView)holder.getView(R.id.timeTextView)).setText(o.time);
             }
         };
-
 	    getData(-1, 10);
 		setListAdapter(this.adapter);
 		return super.onCreateView(inflater, container, savedInstanceState);
@@ -105,6 +108,17 @@ public class DiscoveryFragment extends ListFragment
 	public void onStart()
 	{
 		super.onStart();
-		getListView().setDividerHeight(0);//取消边框线
+		ListView listView=getListView();
+		listView.setDividerHeight(0);//取消边框线
+		listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+		{
+			@Override
+			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
+			{
+				Intent intent=new Intent(getActivity(),ArticleActivity.class);
+				intent.putExtra(MSG_ID,messages.get(i).msgID);
+				startActivity(intent);
+			}
+		});
 	}
 }
