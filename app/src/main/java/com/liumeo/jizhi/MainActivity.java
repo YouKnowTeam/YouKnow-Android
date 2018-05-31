@@ -1,5 +1,7 @@
 package com.liumeo.jizhi;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -38,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements MeFragment.OnFrag
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_bottom_navigation);
+		setContentView(R.layout.activity_main);
 
 		viewPager=(ViewPager)findViewById(R.id.viewPager);
 		BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -74,5 +76,16 @@ public class MainActivity extends AppCompatActivity implements MeFragment.OnFrag
 	public void onFragmentInteraction(Uri uri)
 	{
 
+	}
+	public void logout()
+	{
+		Networking.token="";
+		SharedPreferences sharedPreferences = getSharedPreferences(LoginActivity.USERINFO, MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharedPreferences.edit();
+		editor.putBoolean(LoginActivity.LOGOUT,true);
+		editor.apply();
+		Intent intent=new Intent(this,LoginActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(intent);
 	}
 }

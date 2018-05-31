@@ -1,12 +1,14 @@
 package com.liumeo.jizhi;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -33,14 +35,30 @@ public class MeFragment extends Fragment
 							 Bundle savedInstanceState)
 	{
 		// Inflate the layout for this fragment
-		return inflater.inflate(R.layout.fragment_blank, container, false);
+		return inflater.inflate(R.layout.fragment_me, container, false);
 	}
 	public void onStart()
 	{
 		super.onStart();
 		meListView=getView().findViewById(R.id.meListView);
-		ArrayAdapter<String> adapter=new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,new String[]{"1","3"});
+		ArrayAdapter<String> adapter=new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,new String[]{getResources().getString(R.string.setting)});
 		meListView.setAdapter(adapter);
+		meListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+		{
+			@Override
+			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
+			{
+				switch (i)
+				{
+					case 0:
+						Intent intent=new Intent(getActivity(),SettingActivity.class);
+						startActivity(intent);
+						break;
+					default:
+						break;
+				}
+			}
+		});
 	}
 	// TODO: Rename method, update argument and hook method into UI event
 	public void onButtonPressed(Uri uri)

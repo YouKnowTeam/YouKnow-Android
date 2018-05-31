@@ -17,4 +17,8 @@
     <string name="logout">退出登录</string>
     <string name="discovery">发现</string>
     <string name="me">我</string>
+    <string name="source">消息源</string>
+    <string name="tree_hole">树洞</string>
+    <string name="dean">教务</string>
+    <string name="setting">设置</string>
 </resources>
