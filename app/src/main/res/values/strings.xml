@@ -6,6 +6,7 @@
     <string name="password">密码</string>
     <string name="confirm">确认密码</string>
     <string name="submit">提交</string>
+    <string name="notConsistent">两次密码不一致</string>
     <string name="logout">退出登录</string>
     <string name="discovery">发现</string>
     <string name="me">我</string>
