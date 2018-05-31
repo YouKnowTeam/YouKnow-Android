@@ -6,8 +6,6 @@ import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,17 +21,17 @@ import java.util.Map;
 public class ItemFragment extends ListFragment
 {
 
-    ArrayList<Article>articles;
+    ArrayList<Message> messages;
     ListViewAdapter adapter;
 
     @Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
-	    this.articles = new ArrayList<>();
-	    this.adapter = new ListViewAdapter<Article> (getContext(),articles,R.layout.article_item)
+	    this.messages = new ArrayList<>();
+	    this.adapter = new ListViewAdapter<Message> (getContext(), messages,R.layout.article_item)
         {
             @Override
-            public void convert(ViewHolder holder, Article o)
+            public void convert(ViewHolder holder, Message o)
             {
                 ((TextView)holder.getView(R.id.title)).setText(o.brief);
                 ((TextView)holder.getView(R.id.time)).setText(o.time);
@@ -65,7 +63,7 @@ public class ItemFragment extends ListFragment
                             String srcID = (String)(oneDataObject.get("SrcID"));
                             String brief = (String)(oneDataObject.get("Brief"));
                             String timestamp = (String)(oneDataObject.get("Timestamp"));
-                            thisFragment.articles.add(new Article(msgID, srcID, brief, timestamp));
+                            thisFragment.messages.add(new Message(msgID, srcID, brief, timestamp));
                         }
                         thisFragment.adapter.notifyDataSetChanged();
                         break;
@@ -85,8 +83,8 @@ public class ItemFragment extends ListFragment
             }
         });
 
-//		articles.add(new Article("四六级报名开始", "1", "1", "hahahahahahahahaha","2018-03-11"));
-//        articles.add(new Article("16级xxx有没有男/女朋友呀", "2", "2", "hahahahahahahahaha","2018-05-05"));
+//		messages.add(new Message("四六级报名开始", "1", "1", "hahahahahahahahaha","2018-03-11"));
+//        messages.add(new Message("16级xxx有没有男/女朋友呀", "2", "2", "hahahahahahahahaha","2018-05-05"));
 		setListAdapter(this.adapter);
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
