@@ -5,12 +5,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.net.Network;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends Activity
 {
@@ -22,7 +24,7 @@ public class MainActivity extends Activity
 	View registerButton;
 	private static final String userinfoId="userinfoId";
 	private static final String userinfoPassword="userinfoPassword";
-	private boolean register;
+	private boolean register;//是否为注册模式
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -34,6 +36,7 @@ public class MainActivity extends Activity
 		registerButton=findViewById(R.id.registerButton);
 		idEditText=findViewById(R.id.idEditText);
 		passwordEditText=findViewById(R.id.passwordEditText);
+		//默认登录模式
 		login(null);
 	}
 	public void login(View view)
@@ -43,9 +46,9 @@ public class MainActivity extends Activity
 		confirmEditText.setVisibility(View.GONE);
 		loginButton.setBackgroundColor(getResources().getColor(R.color.colorOrange));
 		registerButton.setBackgroundColor(getResources().getColor(R.color.colorYellow));
-		if(getUserInfo())
+		if(getUserInfo())//上次成功登录过
 		{
-			//submit(null);
+			//submit(null);//自动登录
 		}
 	}
 	public void register(View view)
@@ -58,9 +61,12 @@ public class MainActivity extends Activity
 	}
 	public void submit(View view)
 	{
-		String id=idEditText.getText().toString();
-		String password=passwordEditText.getText().toString();
-		if(register)
+		final String id=idEditText.getText().toString();
+		final String password=passwordEditText.getText().toString();
+		Map<String,String>map=new HashMap<>();
+		map.put("userid",id);
+		map.put("passwd",password);
+		if(register)//注册状态
 		{
 			String confirmPassword=confirmEditText.getText().toString();
 			if(!password.equals(confirmPassword))
@@ -69,18 +75,35 @@ public class MainActivity extends Activity
 				toast.show();
 				return;
 			}
-		}
-		Networking.get("/SignUp",null,this,new Networking.Updater()
-		{
-			@Override
-			public void run()
+			Networking.post("/SignUp",map,this,new Networking.Updater()
 			{
-				System.out.println(response);
-			}
-		});
-
-		//send to server and wait response
-		storeUserInfo(id,password);
+				@Override
+				public void run()
+				{
+					System.out.println(response);
+					//判断是否成功
+					storeUserInfo(id,password);
+					successLogin();
+				}
+			});
+		}
+		else//登录状态
+		{
+			Networking.post("/SignIn",map,this,new Networking.Updater()
+			{
+				@Override
+				public void run()
+				{
+					System.out.println(response);
+					//判断是否成功
+					storeUserInfo(id,password);
+					successLogin();
+				}
+			});
+		}
+	}
+	private void successLogin()
+	{
 		Intent intent=new Intent(this,BottomNavigationActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
 		startActivity(intent);
