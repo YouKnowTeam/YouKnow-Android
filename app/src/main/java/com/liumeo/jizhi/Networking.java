@@ -14,17 +14,34 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+/**
+ * 网络请求类
+ */
 class Networking
 {
+	/**
+	 * server prefix
+	 */
 	private static final String prefix = "http://162.105.175.115:4000";
+	/**
+	 * 用作登录凭证，除SignUp和Login外的所有请求都必须带上
+	 */
 	public static String token = "";
+
+	/**
+	 * 发起GET请求
+	 * @param path 请求路径
+	 * @param arguments 参数（被url-encode入URL）
+	 * @param activity 用于返回主线程的activity
+	 * @param updater 请求返回后的回调函数
+	 */
 	static void get(String path, Map<String,String> arguments, final Activity activity, final Updater updater)
 	{
-		if(arguments!=null)
+		if(arguments != null)
 		{
-			StringBuilder sb=new StringBuilder(path).append("?");
+			StringBuilder sb = new StringBuilder(path).append("?");
 			boolean first=true;
-			for (Object o : arguments.entrySet())
+			for (Object o: arguments.entrySet())
 			{
 				if (!first)
 				{
@@ -41,24 +58,39 @@ class Networking
 				.build();
 		send(request,activity,updater);
 	}
+
+	/**
+	 * 发起POST请求
+	 * @param path 请求路径
+	 * @param arguments 参数（被url-encode入body）
+	 * @param activity 用于返回主线程的activity
+	 * @param updater 请求返回后的回调函数
+	 */
 	static void post(String path, Map<String,String> arguments, final Activity activity, final Updater updater)
 	{
 		FormBody.Builder builder = new FormBody.Builder();
 		if(arguments!=null)
 		{
-			for (Object o : arguments.entrySet())
+			for (Object o: arguments.entrySet())
 			{
 				Map.Entry entry = (Map.Entry) o;
 				builder.add(entry.getKey().toString(),entry.getValue().toString());
 			}
 		}
-		RequestBody body=builder.build();
+		RequestBody body = builder.build();
 		Request request = new Request.Builder()
 				.url(prefix + path)
 				.post(body)
 				.build();
 		send(request,activity,updater);
 	}
+
+	/**
+	 * 内部方法，用于发出请求，供get和post函数调用
+	 * @param request get和post给出的request请求体
+	 * @param activity 用于返回主线程的activity
+	 * @param updater 请求返回后的回调函数
+	 */
 	private static void send(Request request, final Activity activity, final Updater updater)
 	{
 		OkHttpClient okHttpClient = new OkHttpClient();
@@ -74,7 +106,7 @@ class Networking
 					@Override
 					public void run()
 					{
-						Toast toast=Toast.makeText(activity,R.string.networkError,Toast.LENGTH_SHORT);
+						Toast toast = Toast.makeText(activity, R.string.networkError, Toast.LENGTH_SHORT);
 						toast.show();
 					}
 				});
@@ -96,6 +128,11 @@ class Networking
 		});
 	}
 
+	/**
+	 * 请求返回后的回调函数类
+	 * 使用时请为response赋值网络请求返回值
+	 * 并实现run方法
+	 */
 	static class Updater implements Runnable
 	{
 		String response;
