@@ -11,12 +11,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ArrayList;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends Activity
 {
@@ -26,29 +25,35 @@ public class MainActivity extends Activity
 	TextView confirmEditText;
 	View loginButton;
 	View registerButton;
-	private static final String userinfoId="userinfoId";
-	private static final String userinfoPassword="userinfoPassword";
-	private static final String tokenKey="token";
-	private boolean register;//是否为注册模式
+	private static final String userinfoId = "userinfoId";
+	private static final String userinfoPassword = "userinfoPassword";
+
+	private boolean register; //是否为注册模式
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		confirmTextView=findViewById(R.id.confirmTextView);
-		confirmEditText=findViewById(R.id.confirmEditText);
-		loginButton=findViewById(R.id.loginButton);
-		registerButton=findViewById(R.id.registerButton);
-		idEditText=findViewById(R.id.idEditText);
-		passwordEditText=findViewById(R.id.passwordEditText);
+		confirmTextView = findViewById(R.id.confirmTextView);
+		confirmEditText = findViewById(R.id.confirmEditText);
+		loginButton = findViewById(R.id.loginButton);
+		registerButton = findViewById(R.id.registerButton);
+		idEditText = findViewById(R.id.idEditText);
+		passwordEditText = findViewById(R.id.passwordEditText);
 		idEditText.setSaveEnabled(false);
 		passwordEditText.setSaveEnabled(false);
 		//默认登录模式
-		login(null);
+		showLogin(null);
 	}
-	public void login(View view)
+
+    /**
+     * 显示登录页
+     * @param view 触发该动作的view
+     */
+	public void showLogin(View view)
 	{
-		register=false;
+		register = false;
 		confirmTextView.setVisibility(View.GONE);
 		confirmEditText.setVisibility(View.GONE);
 		loginButton.setBackgroundColor(getResources().getColor(R.color.colorOrange));
@@ -58,43 +63,52 @@ public class MainActivity extends Activity
 			submit(null);//自动登录
 		}
 	}
-	public void register(View view)
+
+    /**
+     * 显示注册页
+     * @param view 触发该动作的view
+     */
+	public void showSignup(View view)
 	{
-		register=true;
+		register = true;
 		confirmTextView.setVisibility(View.VISIBLE);
 		confirmEditText.setVisibility(View.VISIBLE);
 		loginButton.setBackgroundColor(getResources().getColor(R.color.colorYellow));
 		registerButton.setBackgroundColor(getResources().getColor(R.color.colorOrange));
 	}
+
+    /**
+     * 提交表单（注册或登录）
+     * @param view 触发该动作的view
+     */
 	public void submit(View view)
 	{
-		final String id=idEditText.getText().toString();
-		final String password=passwordEditText.getText().toString();
-		Map<String,String>map=new HashMap<>();
-		map.put("userid",id);
-		map.put("passwd",password);
-        final Activity thisActivity = this;
-        if(register)//注册状态
+		final String id = idEditText.getText().toString();
+		final String password = passwordEditText.getText().toString();
+		Map<String,String>params = new HashMap<>();
+		params.put("userid",id);
+		params.put("passwd",password);
+        final Activity thisActivity  =  this;
+        if (register)
 		{
-			String confirmPassword=confirmEditText.getText().toString();
+            //注册状态
+			String confirmPassword = confirmEditText.getText().toString();
 			if(!password.equals(confirmPassword))
 			{
-				Toast toast=Toast.makeText(this,R.string.notConsistent,Toast.LENGTH_SHORT);
+				Toast toast = Toast.makeText(this,R.string.notConsistent,Toast.LENGTH_SHORT);
 				toast.show();
 				return;
 			}
-			Networking.post("/SignUp",map,this,new Networking.Updater()
+			Networking.post("/SignUp",params,this,new Networking.Updater()
 			{
 				@Override
 				public void run()
 				{
                     System.out.println("******************");
                     System.out.println(response);
-                    System.out.println("******************");
                     Map result = JSON.parseObject(response, new TypeReference<Map>(){});
                     System.out.println("******************");
                     System.out.println(result);
-                    System.out.println("******************");
                     Toast toast;
                     int code = (Integer)result.get("code");
                     switch (code) {
@@ -102,27 +116,28 @@ public class MainActivity extends Activity
                             storeUserInfo(id, password);
                             idEditText.setText(id);
                             passwordEditText.setText(password);
-                            login(null);
+                            showLogin(null);
                             break;
                         case -2:
-                            toast=Toast.makeText(thisActivity,R.string.useridAlreadyExist,Toast.LENGTH_SHORT);
+                            toast = Toast.makeText(thisActivity,R.string.useridAlreadyExist,Toast.LENGTH_SHORT);
                             toast.show();
                             break;
                         case -3:
-                            toast=Toast.makeText(thisActivity,R.string.serverError,Toast.LENGTH_SHORT);
+                            toast = Toast.makeText(thisActivity,R.string.serverError,Toast.LENGTH_SHORT);
                             toast.show();
                             break;
                         default:
-                            toast=Toast.makeText(thisActivity,R.string.unknownError,Toast.LENGTH_SHORT);
+                            toast = Toast.makeText(thisActivity,R.string.unknownError,Toast.LENGTH_SHORT);
                             toast.show();
                             break;
                     }
 				}
 			});
 		}
-		else//登录状态
+		else
 		{
-			Networking.post("/Login",map,this,new Networking.Updater()
+            //登录状态
+			Networking.post("/Login", params,this, new Networking.Updater()
 			{
 				@Override
 				public void run()
@@ -141,22 +156,22 @@ public class MainActivity extends Activity
                             storeUserInfo(id, password);
                             Networking.token = (String)result.get("token");
                             System.out.println(Networking.token);
-                            successLogin();
+                            transitToMainView();
                             break;
                         case -1:
-                            toast=Toast.makeText(thisActivity,R.string.passwordWrong,Toast.LENGTH_SHORT);
+                            toast = Toast.makeText(thisActivity,R.string.passwordWrong,Toast.LENGTH_SHORT);
                             toast.show();
                             break;
                         case -2:
-                            toast=Toast.makeText(thisActivity,R.string.useridNotExist,Toast.LENGTH_SHORT);
+                            toast = Toast.makeText(thisActivity,R.string.useridNotExist,Toast.LENGTH_SHORT);
                             toast.show();
                             break;
                         case -3:
-                            toast=Toast.makeText(thisActivity,R.string.serverError,Toast.LENGTH_SHORT);
+                            toast = Toast.makeText(thisActivity,R.string.serverError,Toast.LENGTH_SHORT);
                             toast.show();
                             break;
                         default:
-                            toast=Toast.makeText(thisActivity,R.string.unknownError,Toast.LENGTH_SHORT);
+                            toast = Toast.makeText(thisActivity,R.string.unknownError,Toast.LENGTH_SHORT);
                             toast.show();
                             break;
                     }
@@ -164,13 +179,22 @@ public class MainActivity extends Activity
 			});
 		}
 	}
-	private void successLogin()
+
+    /**
+     * 当登录成功后，转到主app界面
+     */
+	private void transitToMainView()
 	{
-		Intent intent=new Intent(this,BottomNavigationActivity.class);
+		Intent intent = new Intent(this,BottomNavigationActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
 		startActivity(intent);
 	}
-	private void storeUserInfo(String id,String password)
+    /**
+     * 保存用户名和密码信息到本地，供下次登录使用
+     * @param id 用户名
+     * @param password 密码
+     */
+	private void storeUserInfo(String id, String password)
 	{
 		SharedPreferences sharedPreferences = getSharedPreferences("userinfo",MODE_PRIVATE);
 		Editor editor = sharedPreferences.edit();
@@ -178,11 +202,16 @@ public class MainActivity extends Activity
 		editor.putString(userinfoPassword,password);
 		editor.apply();
 	}
+
+    /**
+     * 在本地寻找保护的用户名和密码信息，供登录使用，自动填充入idEditText和passwordEditText
+     * @return 如果找到，则返回true，如果没找到，则返回false
+     */
 	private boolean getUserInfo()
 	{
 		SharedPreferences sharedPreferences = getSharedPreferences("userinfo",MODE_PRIVATE);
-		String id=sharedPreferences.getString(userinfoId,"");
-		String password=sharedPreferences.getString(userinfoPassword,"");
+		String id = sharedPreferences.getString(userinfoId,"");
+		String password = sharedPreferences.getString(userinfoPassword,"");
 		idEditText.setText(id);
 		passwordEditText.setText(password);
 		return !id.equals("");

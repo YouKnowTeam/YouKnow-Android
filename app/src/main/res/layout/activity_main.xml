@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:layout_margin="10dp"
-            android:onClick="login"
+            android:onClick="showLogin"
             android:id="@+id/loginButton"
             android:text="@string/login"/>
         <Button
@@ -24,7 +24,7 @@
             android:layout_marginLeft="40dp"
             android:padding="10dp"
             android:layout_margin="10dp"
-            android:onClick="register"
+            android:onClick="showSignup"
             android:id="@+id/registerButton"
             android:text="@string/register"/>
     </LinearLayout>
