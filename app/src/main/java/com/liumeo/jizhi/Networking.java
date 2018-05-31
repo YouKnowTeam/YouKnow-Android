@@ -15,7 +15,7 @@ import okhttp3.Response;
 
 class Networking
 {
-	private static final String prefix = "http://10.1.3.201:8000";
+	private static final String prefix = "http://162.105.175.115:4000";
 	static void get(String path, Map<String,String> arguments, final Activity activity, final Updater updater)
 	{
 		if(arguments!=null)

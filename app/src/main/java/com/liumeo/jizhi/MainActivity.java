@@ -13,6 +13,10 @@ import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ArrayList;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 
 public class MainActivity extends Activity
 {
@@ -80,7 +84,9 @@ public class MainActivity extends Activity
 				@Override
 				public void run()
 				{
+					System.out.println("******************");
 					System.out.println(response);
+					System.out.println("******************");
 					//判断是否成功
 					storeUserInfo(id,password);
 					successLogin();
@@ -89,15 +95,27 @@ public class MainActivity extends Activity
 		}
 		else//登录状态
 		{
-			Networking.post("/SignIn",map,this,new Networking.Updater()
+			Networking.post("/Login",map,this,new Networking.Updater()
 			{
 				@Override
 				public void run()
 				{
+					System.out.println("******************");
 					System.out.println(response);
+					System.out.println("******************");
+                    Map result = JSON.parseObject(response, new TypeReference<Map>(){});
+                    System.out.println("******************");
+                    System.out.println(result);
+                    System.out.println(result.get("code"));
+                    System.out.println(result.get("msg"));
+                    System.out.println(result.get("token"));
+                    System.out.println("******************");
 					//判断是否成功
-					storeUserInfo(id,password);
-					successLogin();
+                    if (result.get("code") == "0")
+					    storeUserInfo(id,password);
+                        successLogin();
+                    else
+
 				}
 			});
 		}
