@@ -13,6 +13,7 @@
     <string name="useridAlreadyExist">用户已存在</string>
     <string name="serverError">服务器错误</string>
     <string name="unknownError">未知错误</string>
+    <string name="tokenInvalid">token无效，请重新登录</string>
     <string name="logout">退出登录</string>
     <string name="discovery">发现</string>
     <string name="me">我</string>

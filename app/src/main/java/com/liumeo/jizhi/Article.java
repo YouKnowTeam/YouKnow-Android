@@ -1,12 +1,16 @@
 package com.liumeo.jizhi;
 
-public class Article
+class Article
 {
-	String title;
-	String time;
-	Article(String title,String time)
+	public String brief;
+    public int msgID;
+    public String srcID;
+    public String time;
+	Article(int msgID, String srcID, String brief, String time)
 	{
-		this.title=title;
+		this.brief=brief;
+		this.msgID=msgID;
+		this.srcID=srcID;
 		this.time=time;
 	}
 }
