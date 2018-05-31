@@ -1,6 +1,7 @@
 package com.liumeo.jizhi;
 
 import android.app.Activity;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.Map;
@@ -67,6 +68,15 @@ class Networking
 			public void onFailure(Call call, IOException e)
 			{
 				e.printStackTrace();
+				activity.runOnUiThread(new Runnable()
+				{
+					@Override
+					public void run()
+					{
+						Toast toast=Toast.makeText(activity,R.string.networkError,Toast.LENGTH_SHORT);
+						toast.show();
+					}
+				});
 			}
 
 			@Override
