@@ -109,13 +109,12 @@ public class LoginActivity extends Activity
 				@Override
 				public void run()
 				{
-					System.out.println("******************");
-					System.out.println(response);
 					Map result = JSON.parseObject(response, new TypeReference<Map>()
 					{
 					});
 					System.out.println("******************");
 					System.out.println(result);
+					System.out.println("******************");
 					Toast toast;
 					int code = (Integer) result.get("code");
 					switch (code)
@@ -147,9 +146,6 @@ public class LoginActivity extends Activity
 				@Override
 				public void run()
 				{
-					System.out.println("******************");
-					System.out.println(response);
-					System.out.println("******************");
 					Map result = JSON.parseObject(response, new TypeReference<Map>()
 					{
 					});

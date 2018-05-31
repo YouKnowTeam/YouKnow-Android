@@ -118,12 +118,15 @@ class Networking
 				try
 				{
 					updater.response=response.body().string();
+					System.out.println("******************");
+					System.out.println(updater.response);
+					System.out.println("******************");
+					activity.runOnUiThread(updater);
 				}
 				catch (Exception e)
 				{
 					e.printStackTrace();
 				}
-				activity.runOnUiThread(updater);
 			}
 		});
 	}

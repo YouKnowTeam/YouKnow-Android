@@ -65,13 +65,11 @@ public class DiscoveryFragment extends ListFragment
         Networking.get("/GetAllSubscribedMessages", params, this.getActivity(), new Networking.Updater() {
             @Override
             public void run() {
-                System.out.println("******************");
-                System.out.println(response);
-                System.out.println("******************");
                 Map result = JSON.parseObject(response, new TypeReference<Map>(){});
                 System.out.println("******************");
                 System.out.println(result);
-                System.out.println("******************");Toast toast;
+                System.out.println("******************");
+                Toast toast;
                 int code = (Integer)result.get("code");
                 switch (code) {
                     case 0:
