@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.net.Network;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -69,6 +70,15 @@ public class MainActivity extends Activity
 				return;
 			}
 		}
+		Networking.get("/SignUp",null,this,new Networking.Updater()
+		{
+			@Override
+			public void run()
+			{
+				System.out.println(response);
+			}
+		});
+
 		//send to server and wait response
 		storeUserInfo(id,password);
 		Intent intent=new Intent(this,BottomNavigationActivity.class);

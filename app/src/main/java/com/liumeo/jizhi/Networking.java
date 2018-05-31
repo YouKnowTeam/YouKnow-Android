@@ -72,6 +72,14 @@ class Networking
 			@Override
 			public void onResponse(Call call, Response response)
 			{
+				try
+				{
+					updater.response=response.body().string();
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
 				activity.runOnUiThread(updater);
 			}
 		});
@@ -80,10 +88,6 @@ class Networking
 	static class Updater implements Runnable
 	{
 		String response;
-		Updater(String response)
-		{
-			this.response=response;
-		}
 		public void run()
 		{
 		}
