@@ -27,7 +27,7 @@ public class SettingActivity extends Activity
 				String srcID=(String)view.getTag();
 				//消息源更新请求
 			}
-		}
+		};
 		for(CheckBoxItem checkBoxItem:checkBoxes)
 		{
 			checkBoxItem.checkBox=new CheckBox(this);

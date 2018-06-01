@@ -206,6 +206,7 @@ public class LoginActivity extends Activity
 		Editor editor = sharedPreferences.edit();
 		editor.putString(USERINFO_ID, id);
 		editor.putString(USERINFO_PASSWORD, password);
+		editor.putBoolean(LOGOUT,false);
 		editor.apply();
 	}
 
