@@ -41,19 +41,23 @@ public class MeFragment extends Fragment
 	{
 		super.onStart();
 		meListView=getView().findViewById(R.id.meListView);
-		ArrayAdapter<String> adapter=new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,new String[]{getResources().getString(R.string.setting)});
+		ArrayAdapter<String> adapter=new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,new String[]{getResources().getString(R.string.setting),getResources().getString(R.string.collect)});
 		meListView.setAdapter(adapter);
 		meListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
 		{
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
 			{
+				Intent intent;
 				switch (i)
 				{
 					case 0:
-						Intent intent=new Intent(getActivity(),SettingActivity.class);
+						intent=new Intent(getActivity(),SettingActivity.class);
 						startActivity(intent);
 						break;
+					case 1:
+						intent=new Intent(getActivity(),CollectionActivity.class);
+						startActivity(intent);
 					default:
 						break;
 				}

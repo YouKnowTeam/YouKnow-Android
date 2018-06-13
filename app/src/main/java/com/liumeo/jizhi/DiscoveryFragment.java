@@ -37,16 +37,7 @@ public class DiscoveryFragment extends ListFragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 	    this.messages = new ArrayList<>();
-	    this.adapter = new ListViewAdapter<Message> (getContext(), messages,R.layout.messsage_item)
-        {
-            @Override
-            public void convert(ViewHolder holder, Message o)
-            {
-				((TextView)holder.getView(R.id.sourceTextView)).setText(o.srcID);
-                ((TextView)holder.getView(R.id.titleTextView)).setText(o.brief);
-                ((TextView)holder.getView(R.id.timeTextView)).setText(o.time);
-            }
-        };
+	    this.adapter = new MessageItemAdapter(getContext(), messages);
 	    getData(-1, 10);
 		setListAdapter(this.adapter);
 		return super.onCreateView(inflater, container, savedInstanceState);
