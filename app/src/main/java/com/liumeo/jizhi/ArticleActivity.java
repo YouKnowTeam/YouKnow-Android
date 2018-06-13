@@ -2,7 +2,12 @@ package com.liumeo.jizhi;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +23,7 @@ public class ArticleActivity extends Activity
 {
 	TextView titleTextView;
 	TextView contentTextView;
+	Switch collectSwitch;
 	int msgID;
 	String srcID;
 	String title;
@@ -53,6 +59,7 @@ public class ArticleActivity extends Activity
 		setContentView(R.layout.activity_article);
 		titleTextView=findViewById(R.id.titleTextView);
 		contentTextView=findViewById(R.id.contentTextView);
+		collectSwitch=findViewById(R.id.collectSwitch);
 		Intent intent=getIntent();
 		int msgID=intent.getIntExtra(DiscoveryFragment.MSG_ID,-1);
 		Map<String,String> params=new HashMap<>();
@@ -100,5 +107,30 @@ public class ArticleActivity extends Activity
 	{
 		titleTextView.setText(title+" "+srcID+" "+time);
 		contentTextView.setText(content);
+		SQLiteOpenHelper helper=new DBHelper(this);
+		SQLiteDatabase db=helper.getReadableDatabase();
+		Cursor cursor=db.query("collection",new String[]{"count(*)"},"msgID=?",new String[]{Integer.toString(msgID)},null,null,null);
+		cursor.moveToFirst();
+		if(cursor.getInt(0)>0)
+		{
+			collectSwitch.setChecked(true);
+		}
+		cursor.close();
+		db.close();
+	}
+	public void onSwitchClicked(View view)
+	{
+		boolean on=((Switch)view).isChecked();
+		SQLiteOpenHelper helper=new DBHelper(this);
+		SQLiteDatabase db=helper.getWritableDatabase();
+		if(on)
+		{
+			db.execSQL("insert into collection (msgID, srcID, title, time, content) values (?,?,?,?,?)",new String[]{Integer.toString(msgID),srcID,title,time,content});
+		}
+		else
+		{
+			db.execSQL("delete from collection where msgId=?",new String[]{Integer.toString(msgID)});
+		}
+		db.close();
 	}
 }

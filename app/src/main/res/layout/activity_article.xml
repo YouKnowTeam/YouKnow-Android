@@ -14,4 +14,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/contentTextView"/>
+    <Switch
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textOn="@string/collect"
+        android:id="@+id/collectSwitch"
+        android:textOff="@string/cancelCollect"
+        android:onClick="onSwitchClicked"/>
 </LinearLayout>

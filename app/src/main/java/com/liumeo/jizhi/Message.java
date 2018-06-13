@@ -8,7 +8,7 @@ class Message
     /**
      * 较简短的标题
      */
-	public String brief;
+	public String title;
     /**
      * 消息的id
      */
@@ -22,9 +22,9 @@ class Message
      */
     public String time;
 
-	Message(int msgID, String srcID, String brief, String time)
+	Message(int msgID, String srcID, String title, String time)
 	{
-		this.brief=brief;
+		this.title =title;
 		this.msgID=msgID;
 		this.srcID=srcID;
 		this.time=time;

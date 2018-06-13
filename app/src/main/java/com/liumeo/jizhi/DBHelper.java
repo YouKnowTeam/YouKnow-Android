@@ -16,7 +16,7 @@ class DBHelper extends SQLiteOpenHelper
 	@Override
 	public void onCreate(SQLiteDatabase sqLiteDatabase)
 	{
-		sqLiteDatabase.execSQL("create table collection(_id integer primary key autoincrement, msgID integer unique, brief text, time text, content text)");
+		sqLiteDatabase.execSQL("create table collection(_id integer primary key autoincrement, msgID integer unique, srcID text,title text, time text, content text)");
 	}
 
 	@Override
