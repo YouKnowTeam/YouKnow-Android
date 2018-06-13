@@ -38,7 +38,6 @@ public class DiscoveryFragment extends ListFragment
 	{
 	    this.messages = new ArrayList<>();
 	    this.adapter = new MessageItemAdapter(getContext(), messages);
-	    getData(-1, 10);
 		setListAdapter(this.adapter);
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
@@ -99,6 +98,7 @@ public class DiscoveryFragment extends ListFragment
 	public void onStart()
 	{
 		super.onStart();
+		getData(-1, 10);
 		ListView listView=getListView();
 		listView.setDividerHeight(0);//取消边框线
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
