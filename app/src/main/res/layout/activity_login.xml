@@ -3,30 +3,33 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-            android:orientation="vertical"
-              android:gravity="center_horizontal"
               android:background="@color/colorWhite"
+              android:gravity="center_horizontal"
+              android:orientation="vertical"
               android:padding="10dp"
               tools:context=".LoginActivity">
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
+
         <Button
+            android:id="@+id/loginButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
             android:layout_margin="10dp"
             android:onClick="showLogin"
-            android:id="@+id/loginButton"
+            android:padding="10dp"
             android:text="@string/login"/>
+
         <Button
+            android:id="@+id/registerButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:padding="10dp"
             android:layout_margin="10dp"
+            android:layout_marginLeft="40dp"
             android:onClick="showSignup"
-            android:id="@+id/registerButton"
+            android:padding="10dp"
             android:text="@string/register"/>
     </LinearLayout>
 
@@ -34,17 +37,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:columnCount="2">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/id"/>
+
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:gravity="center"
             android:id="@+id/idEditText"
-            android:inputType="text"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="fill_horizontal"
+            android:gravity="center"
+            android:inputType="text"
+            android:singleLine="true"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -53,27 +59,31 @@
 
         <EditText
             android:id="@+id/passwordEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:inputType="textPassword"/>
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/confirm"
-            android:id="@+id/confirmTextView"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
+            android:layout_gravity="fill_horizontal"
             android:inputType="textPassword"
-            android:id="@+id/confirmEditText"/>
+            android:textAlignment="center"/>
+
+        <TextView
+            android:id="@+id/confirmTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/confirm"/>
+
+        <EditText
+            android:id="@+id/confirmEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="fill_horizontal"
+            android:inputType="textPassword"
+            android:textAlignment="center"/>
     </GridLayout>
 
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/submit"
-        android:onClick="submit"/>
+        android:onClick="submit"
+        android:text="@string/submit"/>
 </LinearLayout>
