@@ -7,6 +7,7 @@ import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,7 +24,6 @@ import java.util.Map;
 
 public class DiscoveryFragment extends ListFragment
 {
-	static final String MSG_ID="MSG_ID";
     /**
      * 储存所有message的ArrayList
      */
@@ -33,12 +33,16 @@ public class DiscoveryFragment extends ListFragment
      */
     ListViewAdapter adapter;
 
+	void setLastVisibleItem(int lastVisibleItem)
+	{
+		this.lastVisibleItem = lastVisibleItem;
+	}
+
+	int lastVisibleItem;
+
     @Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
-	    this.messages = new ArrayList<>();
-	    this.adapter = new MessageItemAdapter(getContext(), messages);
-		setListAdapter(this.adapter);
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
@@ -93,13 +97,15 @@ public class DiscoveryFragment extends ListFragment
             }
         });
     }
-
-	@Override
-	public void onStart()
+    @Override
+	public void onActivityCreated(Bundle bundle)
 	{
-		super.onStart();
-		getData(-1, 10);
+		super.onActivityCreated(bundle);
+		this.messages = new ArrayList<>();
+		this.adapter = new MessageItemAdapter(getContext(), messages);
 		ListView listView=getListView();
+		View loadMoreView= View.inflate(getContext(), R.layout.load_more_view, null);
+		listView.addFooterView(loadMoreView);
 		listView.setDividerHeight(0);//取消边框线
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
 		{
@@ -107,9 +113,28 @@ public class DiscoveryFragment extends ListFragment
 			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
 			{
 				Intent intent=new Intent(getActivity(),ArticleActivity.class);
-				intent.putExtra(MSG_ID,messages.get(i).msgID);
+				intent.putExtra(ArticleActivity.MSG_ID,messages.get(i).msgID);
 				startActivity(intent);
 			}
 		});
+		listView.setOnScrollListener(new AbsListView.OnScrollListener()
+		{
+			@Override
+			public void onScrollStateChanged(AbsListView absListView, int scrollState)
+			{
+				if(scrollState==SCROLL_STATE_IDLE && lastVisibleItem>adapter.getCount())
+				{
+					getData(messages.get(messages.size()-1).msgID,10);
+				}
+			}
+
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
+			{
+				setLastVisibleItem(firstVisibleItem+visibleItemCount);
+			}
+		});
+		setListAdapter(this.adapter);
+		getData(-1, 10);
 	}
 }

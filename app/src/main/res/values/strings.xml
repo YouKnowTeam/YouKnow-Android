@@ -23,4 +23,5 @@
     <string name="setting">设置</string>
     <string name="collect">收藏</string>
     <string name="cancelCollect">取消收藏</string>
+    <string name="loadMore">加载更多</string>
 </resources>

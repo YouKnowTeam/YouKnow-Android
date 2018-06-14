@@ -21,6 +21,7 @@ import java.util.Map;
 
 public class ArticleActivity extends Activity
 {
+	static final String MSG_ID="MSG_ID";
 	TextView titleTextView;
 	TextView contentTextView;
 	Switch collectSwitch;
@@ -61,7 +62,7 @@ public class ArticleActivity extends Activity
 		contentTextView=findViewById(R.id.contentTextView);
 		collectSwitch=findViewById(R.id.collectSwitch);
 		Intent intent=getIntent();
-		int msgID=intent.getIntExtra(DiscoveryFragment.MSG_ID,-1);
+		int msgID=intent.getIntExtra(ArticleActivity.MSG_ID,-1);
 		Map<String,String> params=new HashMap<>();
 		params.put("token", Networking.token);
 		params.put("msg_id", String.valueOf(msgID));
