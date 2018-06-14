@@ -112,6 +112,7 @@ public class DiscoveryFragment extends ListFragment
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
 			{
+				if(i>=messages.size())return;
 				Intent intent=new Intent(getActivity(),ArticleActivity.class);
 				intent.putExtra(ArticleActivity.MSG_ID,messages.get(i).msgID);
 				startActivity(intent);
