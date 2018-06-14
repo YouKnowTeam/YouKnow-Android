@@ -1,7 +1,6 @@
 package com.liumeo.jizhi;
 
-
-import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -17,7 +16,7 @@ import com.alibaba.fastjson.TypeReference;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LoginActivity extends Activity
+public class LoginActivity extends AppCompatActivity
 {
 	static final String USERINFO = "USERINFO";
 	private static final String USERINFO_ID = "USERINFO_ID";
@@ -93,7 +92,7 @@ public class LoginActivity extends Activity
 		Map<String, String> params = new HashMap<>();
 		params.put("userid", id);
 		params.put("passwd", password);
-		final Activity thisActivity = this;
+		final AppCompatActivity thisActivity = this;
 		if (register)
 		{
 			//注册状态
