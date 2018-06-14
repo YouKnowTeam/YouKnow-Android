@@ -23,6 +23,7 @@ public class ArticleActivity extends Activity
 {
 	static final String MSG_ID="MSG_ID";
 	TextView titleTextView;
+	TextView subTextView;
 	TextView contentTextView;
 	Switch collectSwitch;
 	int msgID;
@@ -59,6 +60,7 @@ public class ArticleActivity extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_article);
 		titleTextView=findViewById(R.id.titleTextView);
+		subTextView=findViewById(R.id.subTextView);
 		contentTextView=findViewById(R.id.contentTextView);
 		collectSwitch=findViewById(R.id.collectSwitch);
 		Intent intent=getIntent();
@@ -106,7 +108,8 @@ public class ArticleActivity extends Activity
 	}
 	void updateView()
 	{
-		titleTextView.setText(title+" "+srcID+" "+time);
+		titleTextView.setText(title);
+		subTextView.setText(srcID+" "+time);
 		contentTextView.setText(content);
 		SQLiteOpenHelper helper=new DBHelper(this);
 		SQLiteDatabase db=helper.getReadableDatabase();
