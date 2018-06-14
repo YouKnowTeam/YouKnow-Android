@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +40,7 @@ public class DiscoveryFragment extends ListFragment
 	}
 
 	int lastVisibleItem;
+	boolean hasMore=true;
 
     @Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -71,6 +73,11 @@ public class DiscoveryFragment extends ListFragment
                 switch (code) {
                     case 0:
                         JSONArray data = (JSONArray)result.get("data");
+                        if(data.size()==0)
+						{
+							noMore();
+							return;
+						}
                         for (Object oneData: data) {
                             JSONObject oneDataObject = (JSONObject)oneData;
                             int msgID = (int)(oneDataObject.get("MsgID"));
@@ -97,6 +104,15 @@ public class DiscoveryFragment extends ListFragment
             }
         });
     }
+    void noMore()
+	{
+		hasMore=false;
+		View view=getListView();
+		ProgressBar loadingProgressBar=view.findViewById(R.id.loadingProgressBar);
+		TextView loadingTextView=view.findViewById(R.id.loadMoreView);
+		loadingProgressBar.setVisibility(View.GONE);
+		loadingTextView.setText(R.string.noMore);
+	}
     @Override
 	public void onActivityCreated(Bundle bundle)
 	{
@@ -104,7 +120,7 @@ public class DiscoveryFragment extends ListFragment
 		this.messages = new ArrayList<>();
 		this.adapter = new MessageItemAdapter(getContext(), messages);
 		ListView listView=getListView();
-		View loadMoreView= View.inflate(getContext(), R.layout.load_more_view, null);
+		View loadMoreView= View.inflate(getContext(), R.layout.loading_view, null);
 		listView.addFooterView(loadMoreView);
 		listView.setDividerHeight(0);//取消边框线
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
@@ -123,7 +139,7 @@ public class DiscoveryFragment extends ListFragment
 			@Override
 			public void onScrollStateChanged(AbsListView absListView, int scrollState)
 			{
-				if(scrollState==SCROLL_STATE_IDLE && lastVisibleItem>adapter.getCount())
+				if(scrollState==SCROLL_STATE_IDLE && lastVisibleItem>adapter.getCount()&&hasMore)
 				{
 					getData(messages.get(messages.size()-1).msgID,10);
 				}

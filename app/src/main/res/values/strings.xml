@@ -23,5 +23,6 @@
     <string name="setting">设置</string>
     <string name="collect">收藏</string>
     <string name="cancelCollect">取消收藏</string>
-    <string name="loadMore">加载更多</string>
+    <string name="loading">正在加载</string>
+    <string name="noMore">没有更多了</string>
 </resources>
