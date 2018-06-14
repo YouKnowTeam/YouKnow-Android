@@ -62,7 +62,7 @@ public class LoginActivity extends AppCompatActivity
 		confirmEditText.setVisibility(View.GONE);
 		loginButton.setBackgroundColor(getResources().getColor(R.color.colorOrange));
 		registerButton.setBackgroundColor(getResources().getColor(R.color.colorYellow));
-		if (getUserInfo())//上次成功登录过且不是登出
+		if (view==null&&getUserInfo())//上次成功登录过且不是登出
 		{
 			submit(null);//自动登录
 		}
@@ -73,7 +73,7 @@ public class LoginActivity extends AppCompatActivity
 	 *
 	 * @param view 触发该动作的view
 	 */
-	public void showSignup(View view)
+	public void showSignUp(View view)
 	{
 		register = true;
 		confirmTextView.setVisibility(View.VISIBLE);
