@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 
 /**
@@ -24,6 +25,7 @@ public class MeFragment extends Fragment
 
 	private OnFragmentInteractionListener mListener;
 	private ListView meListView;
+	private TextView nowUserTextView;
 	public MeFragment()
 	{
 		// Required empty public constructor
@@ -37,10 +39,14 @@ public class MeFragment extends Fragment
 		// Inflate the layout for this fragment
 		return inflater.inflate(R.layout.fragment_me, container, false);
 	}
-	public void onStart()
+	@Override
+	public void onActivityCreated(Bundle bundle)
 	{
-		super.onStart();
-		meListView=getView().findViewById(R.id.meListView);
+		super.onActivityCreated(bundle);
+		View view=getView();
+		meListView=view.findViewById(R.id.meListView);
+		nowUserTextView=view.findViewById(R.id.nowUserTextView);
+		nowUserTextView.setText(getString(R.string.nowUser)+Global.id);
 		ArrayAdapter<String> adapter=new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,new String[]{getResources().getString(R.string.setting),getResources().getString(R.string.collect)});
 		meListView.setAdapter(adapter);
 		meListView.setOnItemClickListener(new AdapterView.OnItemClickListener()

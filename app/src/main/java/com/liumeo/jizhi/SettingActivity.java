@@ -24,15 +24,12 @@ public class SettingActivity extends Activity
 {
     ArrayList<CheckBoxItem> checkBoxes;
     LinearLayout sourceRelativeLayout;
-    TextView nowUserTextView;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_setting);
 		sourceRelativeLayout = findViewById(R.id.sourceLinearLayout);
-		nowUserTextView=findViewById(R.id.nowUserTextView);
-		nowUserTextView.setText(getString(R.string.nowUser)+Global.id);
 		getSources();
 	}
 	private void getSources()
