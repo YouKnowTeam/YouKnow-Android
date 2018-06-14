@@ -40,10 +40,10 @@ public class MainActivity extends AppCompatActivity implements MeFragment.OnFrag
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		viewPager=(ViewPager)findViewById(R.id.viewPager);
+		viewPager = (ViewPager) findViewById(R.id.viewPager);
 		BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-		menu=navigation.getMenu();
-		menuItem=menu.getItem(0);
+		menu = navigation.getMenu();
+		menuItem = menu.getItem(0);
 		navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 		viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener()
 		{
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements MeFragment.OnFrag
 			public void onPageSelected(int position)
 			{
 				menuItem.setChecked(false);
-				menuItem=menu.getItem(position);
+				menuItem = menu.getItem(position);
 				menuItem.setChecked(true);
 			}
 

@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -32,6 +31,7 @@ public class MeFragment extends Fragment
 	private OnFragmentInteractionListener mListener;
 	private ListView meListView;
 	private TextView nowUserTextView;
+
 	public MeFragment()
 	{
 		// Required empty public constructor
@@ -45,26 +45,27 @@ public class MeFragment extends Fragment
 		// Inflate the layout for this fragment
 		return inflater.inflate(R.layout.fragment_me, container, false);
 	}
+
 	@Override
 	public void onActivityCreated(Bundle bundle)
 	{
 		super.onActivityCreated(bundle);
-		View view=getView();
-		meListView=view.findViewById(R.id.meListView);
-		nowUserTextView=view.findViewById(R.id.nowUserTextView);
-		nowUserTextView.setText(getString(R.string.nowUser)+Global.id);
+		View view = getView();
+		meListView = view.findViewById(R.id.meListView);
+		nowUserTextView = view.findViewById(R.id.nowUserTextView);
+		nowUserTextView.setText(getString(R.string.nowUser) + Global.id);
 		//ArrayAdapter<String> adapter=new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,new String[]{getResources().getString(R.string.setting),getResources().getString(R.string.collect)});
 		//meListView.setAdapter(adapter);
-		List<Map<String,Object>>list=new ArrayList<>();
-		Map<String,Object>map=new HashMap<>();
-		map.put("iconImageView",R.drawable.setting);
-		map.put("nameTextView",getResources().getString(R.string.setting));
+		List<Map<String, Object>> list = new ArrayList<>();
+		Map<String, Object> map = new HashMap<>();
+		map.put("iconImageView", R.drawable.setting);
+		map.put("nameTextView", getResources().getString(R.string.setting));
 		list.add(map);
-		map=new HashMap<String, Object>();
-		map.put("iconImageView",R.drawable.collect);
-		map.put("nameTextView",getResources().getString(R.string.collect));
+		map = new HashMap<String, Object>();
+		map.put("iconImageView", R.drawable.collect);
+		map.put("nameTextView", getResources().getString(R.string.collect));
 		list.add(map);
-		SimpleAdapter adapter=new SimpleAdapter(getContext(),list,R.layout.simple_item,new String[]{"iconImageView","nameTextView"},new int[]{R.id.iconImageView,R.id.nameTextView});
+		SimpleAdapter adapter = new SimpleAdapter(getContext(), list, R.layout.simple_item, new String[]{"iconImageView", "nameTextView"}, new int[]{R.id.iconImageView, R.id.nameTextView});
 		meListView.setAdapter(adapter);
 		meListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
 		{
@@ -75,11 +76,11 @@ public class MeFragment extends Fragment
 				switch (i)
 				{
 					case 0:
-						intent=new Intent(getActivity(),SettingActivity.class);
+						intent = new Intent(getActivity(), SettingActivity.class);
 						startActivity(intent);
 						break;
 					case 1:
-						intent=new Intent(getActivity(),CollectionActivity.class);
+						intent = new Intent(getActivity(), CollectionActivity.class);
 						startActivity(intent);
 					default:
 						break;
@@ -87,6 +88,7 @@ public class MeFragment extends Fragment
 			}
 		});
 	}
+
 	// TODO: Rename method, update argument and hook method into UI event
 	public void onButtonPressed(Uri uri)
 	{

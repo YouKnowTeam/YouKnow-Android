@@ -7,9 +7,10 @@ class CheckBoxItem
 	String text;
 	String srcID;
 	CheckBox checkBox;
-	CheckBoxItem(String text,String srcID)
+
+	CheckBoxItem(String text, String srcID)
 	{
-		this.text=text;
-		this.srcID=srcID;
+		this.text = text;
+		this.srcID = srcID;
 	}
 }

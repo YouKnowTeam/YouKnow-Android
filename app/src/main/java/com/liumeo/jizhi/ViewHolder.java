@@ -6,13 +6,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class ViewHolder {
+public class ViewHolder
+{
 
 	private SparseArray<View> mViews;
 	private int mPosition;
 	private View mConvertView;
 
-	public ViewHolder(Context context, ViewGroup parent, int layoutId, int position) {
+	public ViewHolder(Context context, ViewGroup parent, int layoutId, int position)
+	{
 		this.mPosition = position;
 		this.mViews = new SparseArray<View>();
 
@@ -22,10 +24,13 @@ public class ViewHolder {
 
 	}
 
-	public static ViewHolder get(Context context, View convertView, ViewGroup parent, int layoutId, int position) {
-		if (convertView == null) {
+	public static ViewHolder get(Context context, View convertView, ViewGroup parent, int layoutId, int position)
+	{
+		if (convertView == null)
+		{
 			return new ViewHolder(context, parent, layoutId, position);
-		} else {
+		} else
+		{
 			ViewHolder holder = (ViewHolder) convertView.getTag();
 			holder.mPosition = position; //即使ViewHolder是复用的，但是position记得更新一下
 			return holder;
@@ -36,10 +41,12 @@ public class ViewHolder {
 	通过viewId获取控件
 	 */
 	//使用的是泛型T,返回的是View的子类
-	public View getView(int viewId) {
+	public View getView(int viewId)
+	{
 		View view = mViews.get(viewId);
 
-		if (view == null) {
+		if (view == null)
+		{
 			view = mConvertView.findViewById(viewId);
 			mViews.put(viewId, view);
 		}
@@ -47,7 +54,8 @@ public class ViewHolder {
 		return view;
 	}
 
-	public View getConvertView() {
+	public View getConvertView()
+	{
 		return mConvertView;
 	}
 }

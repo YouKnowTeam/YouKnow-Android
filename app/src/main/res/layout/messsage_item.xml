@@ -1,39 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/message_item"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:orientation="horizontal"
-              android:paddingTop="10dp"
               android:paddingLeft="10dp"
               android:paddingRight="10dp"
-              android:id="@+id/message_item">
+              android:paddingTop="10dp">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:background="@color/colorBlue">
+        android:background="@color/colorBlue"
+        android:padding="10dp">
+
         <TextView
+            android:id="@+id/sourceTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
-            android:id="@+id/sourceTextView"/>
+            android:layout_centerVertical="true"/>
+
         <TextView
+            android:id="@+id/titleTextView"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/sourceTextView"
             android:layout_centerVertical="true"
-            android:textSize="20sp"
             android:layout_marginLeft="10dp"
-            android:id="@+id/titleTextView"/>
+            android:layout_toRightOf="@+id/sourceTextView"
+            android:textSize="20sp"/>
+
         <TextView
+            android:id="@+id/timeTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/titleTextView"
-            android:layout_marginTop="20dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:id="@+id/timeTextView"/>
+            android:layout_below="@+id/titleTextView"
+            android:layout_marginTop="20dp"/>
     </RelativeLayout>
 
 </LinearLayout>

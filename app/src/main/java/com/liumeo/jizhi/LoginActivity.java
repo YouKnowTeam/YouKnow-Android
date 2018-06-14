@@ -1,10 +1,10 @@
 package com.liumeo.jizhi;
 
-import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -21,9 +21,9 @@ import cn.jpush.android.api.JPushInterface;
 public class LoginActivity extends AppCompatActivity
 {
 	static final String USERINFO = "USERINFO";
+	static final String LOGOUT = "LOGOUT";
 	private static final String USERINFO_ID = "USERINFO_ID";
 	private static final String USERINFO_PASSWORD = "USERINFO_PASSWORD";
-	static final String LOGOUT ="LOGOUT";
 	EditText idEditText;
 	EditText passwordEditText;
 	View confirmTextView;
@@ -62,7 +62,7 @@ public class LoginActivity extends AppCompatActivity
 		confirmEditText.setVisibility(View.GONE);
 		loginButton.setBackgroundColor(getResources().getColor(R.color.colorOrange));
 		registerButton.setBackgroundColor(getResources().getColor(R.color.colorYellow));
-		if (view==null&&getUserInfo())//上次成功登录过且不是登出
+		if (view == null && getUserInfo())//上次成功登录过且不是登出
 		{
 			submit(null);//自动登录
 		}
@@ -162,7 +162,7 @@ public class LoginActivity extends AppCompatActivity
 							setupPushAlias(id);
 							Networking.token = (String) result.get("token");
 							System.out.println(Networking.token);
-							Global.id=id;
+							Global.id = id;
 							transitToMainView();
 							break;
 						case -1:
@@ -188,9 +188,9 @@ public class LoginActivity extends AppCompatActivity
 	}
 
 	private void setupPushAlias(String id)
-    {
-        JPushInterface.setAlias(this, 0, id);
-    }
+	{
+		JPushInterface.setAlias(this, 0, id);
+	}
 
 	/**
 	 * 当登录成功后，转到主app界面
@@ -214,7 +214,7 @@ public class LoginActivity extends AppCompatActivity
 		Editor editor = sharedPreferences.edit();
 		editor.putString(USERINFO_ID, id);
 		editor.putString(USERINFO_PASSWORD, password);
-		editor.putBoolean(LOGOUT,false);
+		editor.putBoolean(LOGOUT, false);
 		editor.apply();
 	}
 
@@ -228,9 +228,9 @@ public class LoginActivity extends AppCompatActivity
 		SharedPreferences sharedPreferences = getSharedPreferences(USERINFO, MODE_PRIVATE);
 		String id = sharedPreferences.getString(USERINFO_ID, "");
 		String password = sharedPreferences.getString(USERINFO_PASSWORD, "");
-		boolean logout=sharedPreferences.getBoolean(LOGOUT,false);
+		boolean logout = sharedPreferences.getBoolean(LOGOUT, false);
 		idEditText.setText(id);
 		passwordEditText.setText(password);
-		return !id.equals("")&&!logout;
+		return !id.equals("") && !logout;
 	}
 }

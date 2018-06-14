@@ -30,18 +30,19 @@ class Networking
 
 	/**
 	 * 发起GET请求
-	 * @param path 请求路径
+	 *
+	 * @param path      请求路径
 	 * @param arguments 参数（被url-encode入URL）
-	 * @param activity 用于返回主线程的activity
-	 * @param updater 请求返回后的回调函数
+	 * @param activity  用于返回主线程的activity
+	 * @param updater   请求返回后的回调函数
 	 */
-	static void get(String path, Map<String,String> arguments, final Activity activity, final Updater updater)
+	static void get(String path, Map<String, String> arguments, final Activity activity, final Updater updater)
 	{
-		if(arguments != null)
+		if (arguments != null)
 		{
 			StringBuilder sb = new StringBuilder(path).append("?");
-			boolean first=true;
-			for (Object o: arguments.entrySet())
+			boolean first = true;
+			for (Object o : arguments.entrySet())
 			{
 				if (!first)
 				{
@@ -51,30 +52,31 @@ class Networking
 				sb.append(entry.getKey()).append('=').append(entry.getValue());
 				first = false;
 			}
-			path=sb.toString();
+			path = sb.toString();
 		}
 		Request request = new Request.Builder()
 				.url(prefix + path)
 				.build();
-		send(request,activity,updater);
+		send(request, activity, updater);
 	}
 
 	/**
 	 * 发起POST请求
-	 * @param path 请求路径
+	 *
+	 * @param path      请求路径
 	 * @param arguments 参数（被url-encode入body）
-	 * @param activity 用于返回主线程的activity
-	 * @param updater 请求返回后的回调函数
+	 * @param activity  用于返回主线程的activity
+	 * @param updater   请求返回后的回调函数
 	 */
-	static void post(String path, Map<String,String> arguments, final Activity activity, final Updater updater)
+	static void post(String path, Map<String, String> arguments, final Activity activity, final Updater updater)
 	{
 		FormBody.Builder builder = new FormBody.Builder();
-		if(arguments!=null)
+		if (arguments != null)
 		{
-			for (Object o: arguments.entrySet())
+			for (Object o : arguments.entrySet())
 			{
 				Map.Entry entry = (Map.Entry) o;
-				builder.add(entry.getKey().toString(),entry.getValue().toString());
+				builder.add(entry.getKey().toString(), entry.getValue().toString());
 			}
 		}
 		RequestBody body = builder.build();
@@ -82,14 +84,15 @@ class Networking
 				.url(prefix + path)
 				.post(body)
 				.build();
-		send(request,activity,updater);
+		send(request, activity, updater);
 	}
 
 	/**
 	 * 内部方法，用于发出请求，供get和post函数调用
-	 * @param request get和post给出的request请求体
+	 *
+	 * @param request  get和post给出的request请求体
 	 * @param activity 用于返回主线程的activity
-	 * @param updater 请求返回后的回调函数
+	 * @param updater  请求返回后的回调函数
 	 */
 	private static void send(Request request, final Activity activity, final Updater updater)
 	{
@@ -117,13 +120,12 @@ class Networking
 			{
 				try
 				{
-					updater.response=response.body().string();
+					updater.response = response.body().string();
 					System.out.println("******************");
 					System.out.println(updater.response);
 					System.out.println("******************");
 					activity.runOnUiThread(updater);
-				}
-				catch (Exception e)
+				} catch (Exception e)
 				{
 					e.printStackTrace();
 				}
@@ -139,6 +141,7 @@ class Networking
 	static class Updater implements Runnable
 	{
 		String response;
+
 		@Override
 		public void run()
 		{

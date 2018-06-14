@@ -21,8 +21,8 @@ import java.util.Map;
 
 public class ArticleActivity extends Activity
 {
-	static final String MSG_ID="MSG_ID";
-	static final String TITLE="TITLE";
+	static final String MSG_ID = "MSG_ID";
+	static final String TITLE = "TITLE";
 	TextView titleTextView;
 	TextView srcTextView;
 	TextView timeTextView;
@@ -48,101 +48,110 @@ public class ArticleActivity extends Activity
 	{
 		this.content = content;
 	}
+
 	void setMsgID(int msgID)
 	{
-		this.msgID=msgID;
+		this.msgID = msgID;
 	}
+
 	void setSrcID(String srcID)
 	{
-		this.srcID=srcID;
+		this.srcID = srcID;
 	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_article);
-		titleTextView=findViewById(R.id.titleTextView);
-		timeTextView =findViewById(R.id.timeTextView);
-		srcTextView=findViewById(R.id.srcTextView);
-		contentTextView=findViewById(R.id.contentTextView);
-		collectSwitch=findViewById(R.id.collectSwitch);
-		Intent intent=getIntent();
-		msgID=intent.getIntExtra(MSG_ID,-1);
-		title=intent.getStringExtra(TITLE);
-		Map<String,String> params=new HashMap<>();
+		titleTextView = findViewById(R.id.titleTextView);
+		timeTextView = findViewById(R.id.timeTextView);
+		srcTextView = findViewById(R.id.srcTextView);
+		contentTextView = findViewById(R.id.contentTextView);
+		collectSwitch = findViewById(R.id.collectSwitch);
+		Intent intent = getIntent();
+		msgID = intent.getIntExtra(MSG_ID, -1);
+		title = intent.getStringExtra(TITLE);
+		Map<String, String> params = new HashMap<>();
 		params.put("token", Networking.token);
 		params.put("msg_id", String.valueOf(msgID));
-		Networking.get("/GetMessageDetail",params,this,new Networking.Updater(){
+		Networking.get("/GetMessageDetail", params, this, new Networking.Updater()
+		{
 			@Override
 			public void run()
 			{
-				Map result = JSON.parseObject(response, new TypeReference<Map>(){});
+				Map result = JSON.parseObject(response, new TypeReference<Map>()
+				{
+				});
 				System.out.println("******************");
 				System.out.println(result);
 				System.out.println("******************");
 				Toast toast;
-				int code = (Integer)result.get("code");
-				switch (code) {
+				int code = (Integer) result.get("code");
+				switch (code)
+				{
 					case 0:
-						JSONArray data = (JSONArray)result.get("data");
-						for (Object oneData: data) {
-							JSONObject oneDataObject = (JSONObject)oneData;
+						JSONArray data = (JSONArray) result.get("data");
+						for (Object oneData : data)
+						{
+							JSONObject oneDataObject = (JSONObject) oneData;
 							//setMsgID((int)(oneDataObject.get("MsgID")));
-							setSrcID((String)(oneDataObject.get("SrcID")));
+							setSrcID((String) (oneDataObject.get("SrcID")));
 							//setTitle((String)(oneDataObject.get("Brief")));
-							setContent((String)(oneDataObject.get("Detail")));
-							String time=(String)(oneDataObject.get("Timestamp"));
-							time=time.replace('T',' ').replace('Z',' ');
-							time=time.substring(0,time.indexOf('.'));
+							setContent((String) (oneDataObject.get("Detail")));
+							String time = (String) (oneDataObject.get("Timestamp"));
+							time = time.replace('T', ' ').replace('Z', ' ');
+							time = time.substring(0, time.indexOf('.'));
 							setTime(time);
 						}
 						updateView();
 						break;
 					case -1:
-						toast=Toast.makeText(ArticleActivity.this,R.string.tokenInvalid,Toast.LENGTH_SHORT);
+						toast = Toast.makeText(ArticleActivity.this, R.string.tokenInvalid, Toast.LENGTH_SHORT);
 						toast.show();
 						break;
 					case -3:
-						toast=Toast.makeText(ArticleActivity.this,R.string.serverError,Toast.LENGTH_SHORT);
+						toast = Toast.makeText(ArticleActivity.this, R.string.serverError, Toast.LENGTH_SHORT);
 						toast.show();
 						break;
 					default:
-						toast=Toast.makeText(ArticleActivity.this,R.string.unknownError,Toast.LENGTH_SHORT);
+						toast = Toast.makeText(ArticleActivity.this, R.string.unknownError, Toast.LENGTH_SHORT);
 						toast.show();
 						break;
 				}
 			}
 		});
 	}
+
 	void updateView()
 	{
 		titleTextView.setText(title);
 		srcTextView.setText(srcID);
 		timeTextView.setText(time);
 		contentTextView.setText(content);
-		SQLiteOpenHelper helper=new DBHelper(this);
-		SQLiteDatabase db=helper.getReadableDatabase();
-		Cursor cursor=db.query("collection",new String[]{"count(*)"},"msgID=?",new String[]{Integer.toString(msgID)},null,null,null);
+		SQLiteOpenHelper helper = new DBHelper(this);
+		SQLiteDatabase db = helper.getReadableDatabase();
+		Cursor cursor = db.query("collection", new String[]{"count(*)"}, "msgID=?", new String[]{Integer.toString(msgID)}, null, null, null);
 		cursor.moveToFirst();
-		if(cursor.getInt(0)>0)
+		if (cursor.getInt(0) > 0)
 		{
 			collectSwitch.setChecked(true);
 		}
 		cursor.close();
 		db.close();
 	}
+
 	public void onSwitchClicked(View view)
 	{
-		boolean on=((Switch)view).isChecked();
-		SQLiteOpenHelper helper=new DBHelper(this);
-		SQLiteDatabase db=helper.getWritableDatabase();
-		if(on)
+		boolean on = ((Switch) view).isChecked();
+		SQLiteOpenHelper helper = new DBHelper(this);
+		SQLiteDatabase db = helper.getWritableDatabase();
+		if (on)
 		{
-			db.execSQL("insert into collection (msgID, srcID, title, time, content) values (?,?,?,?,?)",new String[]{Integer.toString(msgID),srcID,title,time,content});
-		}
-		else
+			db.execSQL("insert into collection (msgID, srcID, title, time, content) values (?,?,?,?,?)", new String[]{Integer.toString(msgID), srcID, title, time, content});
+		} else
 		{
-			db.execSQL("delete from collection where msgId=?",new String[]{Integer.toString(msgID)});
+			db.execSQL("delete from collection where msgId=?", new String[]{Integer.toString(msgID)});
 		}
 		db.close();
 	}

@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              tools:context=".SettingActivity">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".SettingActivity">
+
     <LinearLayout
+        android:id="@+id/sourceLinearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:id="@+id/sourceLinearLayout"
         android:orientation="vertical">
+
         <TextView
-            android:layout_height="wrap_content"
+            android:id="@+id/sourceTextView"
             android:layout_width="wrap_content"
-            android:text="@string/source"
-            android:id="@+id/sourceTextView"/>
+            android:layout_height="wrap_content"
+            android:text="@string/source"/>
     </LinearLayout>
 
     <Button
@@ -24,7 +26,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
         android:background="@color/colorRed"
-        android:text="@string/logout"
         android:onClick="logout"
+        android:text="@string/logout"
         android:textColor="@color/colorWhite"/>
 </RelativeLayout>
