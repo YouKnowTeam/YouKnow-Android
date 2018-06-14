@@ -162,6 +162,7 @@ public class LoginActivity extends AppCompatActivity
 							setupPushAlias(id);
 							Networking.token = (String) result.get("token");
 							System.out.println(Networking.token);
+							Global.id=id;
 							transitToMainView();
 							break;
 						case -1:

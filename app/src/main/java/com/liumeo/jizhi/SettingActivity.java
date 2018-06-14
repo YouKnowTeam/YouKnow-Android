@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -23,12 +24,15 @@ public class SettingActivity extends Activity
 {
     ArrayList<CheckBoxItem> checkBoxes;
     LinearLayout sourceRelativeLayout;
+    TextView nowUserTextView;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_setting);
-		this.sourceRelativeLayout = findViewById(R.id.sourceLinearLayout);
+		sourceRelativeLayout = findViewById(R.id.sourceLinearLayout);
+		nowUserTextView=findViewById(R.id.nowUserTextView);
+		nowUserTextView.setText(getString(R.string.nowUser)+Global.id);
 		getSources();
 	}
 	private void getSources()
@@ -143,6 +147,7 @@ public class SettingActivity extends Activity
 	public void logout(View view)
 	{
 		Networking.token="";
+		Global.id="";
 		SharedPreferences sharedPreferences = getSharedPreferences(LoginActivity.USERINFO, MODE_PRIVATE);
 		SharedPreferences.Editor editor = sharedPreferences.edit();
 		editor.putBoolean(LoginActivity.LOGOUT,true);

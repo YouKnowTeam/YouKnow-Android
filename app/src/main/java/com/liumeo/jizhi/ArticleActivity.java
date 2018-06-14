@@ -87,6 +87,7 @@ public class ArticleActivity extends Activity
 							JSONObject oneDataObject = (JSONObject)oneData;
 							setMsgID((int)(oneDataObject.get("MsgID")));
 							setSrcID((String)(oneDataObject.get("SrcID")));
+							setContent((String)(oneDataObject.get("Brief")));
 							setContent((String)(oneDataObject.get("Detail")));
 							String time=(String)(oneDataObject.get("Timestamp"));
 							time=time.replace('T',' ').replace('Z',' ');
