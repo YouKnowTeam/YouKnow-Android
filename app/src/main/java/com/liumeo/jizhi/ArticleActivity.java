@@ -88,7 +88,10 @@ public class ArticleActivity extends Activity
 							setMsgID((int)(oneDataObject.get("MsgID")));
 							setSrcID((String)(oneDataObject.get("SrcID")));
 							setContent((String)(oneDataObject.get("Detail")));
-							setTime((String)(oneDataObject.get("Timestamp")));
+							String time=(String)(oneDataObject.get("Timestamp"));
+							time=time.replace('T',' ').replace('Z',' ');
+							time=time.substring(0,time.indexOf('.'));
+							setTime(time);
 						}
 						updateView();
 						break;

@@ -83,8 +83,10 @@ public class DiscoveryFragment extends ListFragment
                             int msgID = (int)(oneDataObject.get("MsgID"));
                             String srcID = (String)(oneDataObject.get("SrcID"));
                             String brief = (String)(oneDataObject.get("Brief"));
-                            String timestamp = (String)(oneDataObject.get("Timestamp"));
-                            thisFragment.messages.add(new Message(msgID, srcID, brief, timestamp));
+                            String time = (String)(oneDataObject.get("Timestamp"));
+							time=time.replace('T',' ').replace('Z',' ');
+							time=time.substring(0,time.indexOf('.'));
+                            thisFragment.messages.add(new Message(msgID, srcID, brief, time));
                         }
                         thisFragment.adapter.notifyDataSetChanged();
                         break;
