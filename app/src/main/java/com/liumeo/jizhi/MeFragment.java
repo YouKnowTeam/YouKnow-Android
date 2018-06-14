@@ -11,7 +11,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -47,7 +53,18 @@ public class MeFragment extends Fragment
 		meListView=view.findViewById(R.id.meListView);
 		nowUserTextView=view.findViewById(R.id.nowUserTextView);
 		nowUserTextView.setText(getString(R.string.nowUser)+Global.id);
-		ArrayAdapter<String> adapter=new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,new String[]{getResources().getString(R.string.setting),getResources().getString(R.string.collect)});
+		//ArrayAdapter<String> adapter=new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,new String[]{getResources().getString(R.string.setting),getResources().getString(R.string.collect)});
+		//meListView.setAdapter(adapter);
+		List<Map<String,Object>>list=new ArrayList<>();
+		Map<String,Object>map=new HashMap<>();
+		map.put("iconImageView",R.drawable.setting);
+		map.put("nameTextView",getResources().getString(R.string.setting));
+		list.add(map);
+		map=new HashMap<String, Object>();
+		map.put("iconImageView",R.drawable.collect);
+		map.put("nameTextView",getResources().getString(R.string.collect));
+		list.add(map);
+		SimpleAdapter adapter=new SimpleAdapter(getContext(),list,R.layout.simple_item,new String[]{"iconImageView","nameTextView"},new int[]{R.id.iconImageView,R.id.nameTextView});
 		meListView.setAdapter(adapter);
 		meListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
 		{
