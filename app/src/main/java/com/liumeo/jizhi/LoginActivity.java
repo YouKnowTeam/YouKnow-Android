@@ -17,6 +17,8 @@ import com.alibaba.fastjson.TypeReference;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.jpush.android.api.JPushInterface;
+
 public class LoginActivity extends Activity
 {
 	static final String USERINFO = "USERINFO";
@@ -158,6 +160,7 @@ public class LoginActivity extends Activity
 					{
 						case 0:
 							storeUserInfo(id, password);
+							setupPushAlias(id);
 							Networking.token = (String) result.get("token");
 							System.out.println(Networking.token);
 							transitToMainView();
@@ -183,6 +186,11 @@ public class LoginActivity extends Activity
 			});
 		}
 	}
+
+	private void setupPushAlias(String id)
+    {
+        JPushInterface.setAlias(this, 0, id);
+    }
 
 	/**
 	 * 当登录成功后，转到主app界面
