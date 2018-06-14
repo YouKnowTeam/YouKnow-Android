@@ -30,6 +30,7 @@ public class CollectionActivity extends ListActivity
 			{
 				Intent intent=new Intent(CollectionActivity.this,ArticleActivity.class);
 				intent.putExtra(ArticleActivity.MSG_ID,messages.get(i).msgID);
+				intent.putExtra(ArticleActivity.TITLE,messages.get(i).title);
 				startActivity(intent);
 			}
 		});

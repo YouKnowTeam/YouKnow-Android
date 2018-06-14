@@ -22,6 +22,7 @@ import java.util.Map;
 public class ArticleActivity extends Activity
 {
 	static final String MSG_ID="MSG_ID";
+	static final String TITLE="TITLE";
 	TextView titleTextView;
 	TextView srcTextView;
 	TextView timeTextView;
@@ -66,7 +67,8 @@ public class ArticleActivity extends Activity
 		contentTextView=findViewById(R.id.contentTextView);
 		collectSwitch=findViewById(R.id.collectSwitch);
 		Intent intent=getIntent();
-		int msgID=intent.getIntExtra(ArticleActivity.MSG_ID,-1);
+		msgID=intent.getIntExtra(MSG_ID,-1);
+		title=intent.getStringExtra(TITLE);
 		Map<String,String> params=new HashMap<>();
 		params.put("token", Networking.token);
 		params.put("msg_id", String.valueOf(msgID));
@@ -85,9 +87,9 @@ public class ArticleActivity extends Activity
 						JSONArray data = (JSONArray)result.get("data");
 						for (Object oneData: data) {
 							JSONObject oneDataObject = (JSONObject)oneData;
-							setMsgID((int)(oneDataObject.get("MsgID")));
+							//setMsgID((int)(oneDataObject.get("MsgID")));
 							setSrcID((String)(oneDataObject.get("SrcID")));
-							setContent((String)(oneDataObject.get("Brief")));
+							//setTitle((String)(oneDataObject.get("Brief")));
 							setContent((String)(oneDataObject.get("Detail")));
 							String time=(String)(oneDataObject.get("Timestamp"));
 							time=time.replace('T',' ').replace('Z',' ');

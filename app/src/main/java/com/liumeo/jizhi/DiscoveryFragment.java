@@ -146,6 +146,7 @@ public class DiscoveryFragment extends ListFragment
 				if(i>=messages.size())return;
 				Intent intent=new Intent(getActivity(),ArticleActivity.class);
 				intent.putExtra(ArticleActivity.MSG_ID,messages.get(i).msgID);
+				intent.putExtra(ArticleActivity.TITLE,messages.get(i).title);
 				startActivity(intent);
 			}
 		});
