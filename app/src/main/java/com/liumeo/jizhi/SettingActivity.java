@@ -61,6 +61,7 @@ public class SettingActivity extends Activity
                                 @Override
                                 public void onClick(View view)
                                 {
+                                    Global.needRefresh=true;
                                     String srcID=(String)view.getTag();
                                     final boolean checked = ((CheckBox)view).isChecked();
                                     String path;

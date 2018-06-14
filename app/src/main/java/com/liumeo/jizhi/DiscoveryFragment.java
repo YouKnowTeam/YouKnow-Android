@@ -113,10 +113,23 @@ public class DiscoveryFragment extends ListFragment
 		loadingProgressBar.setVisibility(View.GONE);
 		loadingTextView.setText(R.string.noMore);
 	}
-    @Override
+
+	@Override
+	public void onStart()
+	{
+		super.onStart();
+		if(!Global.needRefresh)
+			return;
+		messages.clear();
+		getData(-1, 10);
+		Global.needRefresh=false;
+	}
+
+	@Override
 	public void onActivityCreated(Bundle bundle)
 	{
 		super.onActivityCreated(bundle);
+		Global.needRefresh=true;
 		this.messages = new ArrayList<>();
 		this.adapter = new MessageItemAdapter(getContext(), messages);
 		ListView listView=getListView();
@@ -152,6 +165,5 @@ public class DiscoveryFragment extends ListFragment
 			}
 		});
 		setListAdapter(this.adapter);
-		getData(-1, 10);
 	}
 }
